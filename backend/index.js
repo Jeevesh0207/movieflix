@@ -6,11 +6,9 @@ import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
 import tvRoutes from "./routes/tv.route.js";
 import searchRoutes from "./routes/search.route.js";
-
 import { ENV_VARS } from "./config/envVars.js";
-import { connectDB } from "./config/db.js";
-import { protectRoute } from "./middleware/protectRoute.js";
 import mongoose from "mongoose";
+import { protectRoute } from "./middleware/protectRoute.js";
 
 const app = express();
 
@@ -20,25 +18,20 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 
+// Define allowed origins
+const allowedOrigins = ["http://localhost:5173", "https://movienetflix.vercel.app"];
+
+// Configure CORS
 app.use(cors({
-  origin: '*',
-  credentials: true
-}))
-
-// const allowedOrigins = ["http://localhost:5173", "https://movienetflix.vercel.app"];
-
-// app.use(cors({
-//   origin: (origin, callback) => {
-//     if (allowedOrigins.includes(origin) || !origin) {
-//       callback(null, true);
-//     } else {
-//       callback(new Error("Not allowed by CORS"));
-//     }
-//   },
-//   credentials: true,
-  
-// }));
-
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  credentials: true,
+}));
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoutes);
@@ -72,8 +65,6 @@ mongoose.connect(ENV_VARS.MONGO_URI)
     console.log("Error :" + err);
   });
 
-
 app.listen(PORT, () => {
   console.log("Server started at http://localhost:" + PORT);
-  // connectDB();
 });
