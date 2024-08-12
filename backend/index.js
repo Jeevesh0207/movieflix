@@ -20,18 +20,23 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://movieflixbackend.vercel.app", "http://localhost:5173"];
-
-app.options('*', cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+app.use(cors({
+  origin: '*',
   credentials: true
-}));
+}))
+
+// const allowedOrigins = ["https://movieflixbackend.vercel.app", "http://localhost:5173"];
+
+// app.options('*', cors({
+//   origin: (origin, callback) => {
+//     if (allowedOrigins.includes(origin) || !origin) {
+//       callback(null, true);
+//     } else {
+//       callback(new Error("Not allowed by CORS"));
+//     }
+//   },
+//   credentials: true
+// }));
 
 app.use(express.urlencoded({ extended: true }));
 app.use("/api/v1/auth", authRoutes);
