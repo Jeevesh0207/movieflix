@@ -23,7 +23,7 @@ const useGetTrendingContent = () => {
     getTrendingContent();
   }, [contentType]);
 
-  console.log({ trendingContent });
+  console.log(trendingContent);
 
   return { trendingContent };
 };
