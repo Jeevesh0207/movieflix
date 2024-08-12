@@ -13,7 +13,6 @@ const useGetTrendingContent = () => {
       try {
         const res = await axios.get(BASE_URL + `/api/v1/${contentType}/trending`, {
           withCredentials:true,
-
         });
         setTrendingContent(res.data.content);
       } catch (error) {
