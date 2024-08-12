@@ -1,5 +1,6 @@
 import express from "express";
 import cookieParser from "cookie-parser";
+import path from "path";
 import cors from "cors";
 import authRoutes from "./routes/auth.route.js";
 import movieRoutes from "./routes/movie.route.js";
@@ -12,18 +13,27 @@ import { protectRoute } from "./middleware/protectRoute.js";
 const app = express();
 
 const PORT = ENV_VARS.PORT;
-
-const corsOptions = {
-  origin: '*',
-  credentials: true,
-};
-
-app.use(cors(corsOptions));
+const __dirname = path.resolve();
 
 app.use(express.json());
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
+// Define allowed origins
+const allowedOrigins = ["http://localhost:5173", "https://movienetflix.vercel.app"];
+
+// Configure CORS
+app.use(cors({
+  origin: (origin, callback) => {
+    if (allowedOrigins.includes(origin) || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error("Not allowed by CORS"));
+    }
+  },
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true,
+}));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
