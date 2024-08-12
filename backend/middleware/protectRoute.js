@@ -4,8 +4,9 @@ import { ENV_VARS } from "../config/envVars.js";
 
 export const protectRoute = async (req, res, next) => {
 	try {
+		console.log("Cookies:", req.cookies);
 		const token = req.cookies["jwt-netflix"];
-		console.log(token)
+		console.log("Token:", token);
 		if (!token) {
 			return res.status(401).json({ success: false, message: "Unauthorized - No Token Provided" });
 		}
