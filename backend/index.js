@@ -10,6 +10,7 @@ import searchRoutes from "./routes/search.route.js";
 import { ENV_VARS } from "./config/envVars.js";
 import { connectDB } from "./config/db.js";
 import { protectRoute } from "./middleware/protectRoute.js";
+import mongoose from "mongoose";
 
 const app = express();
 
@@ -19,7 +20,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://movie-streaming-belt.vercel.app","http://localhost:5173"];
+const allowedOrigins = ["https://movie-streaming-belt.vercel.app", "http://localhost:5173"];
 
 app.options('*', cors({
   origin: (origin, callback) => {
@@ -43,8 +44,8 @@ app.use("/api", (req, res) => {
 
 app.get('/', (req, res) => {
   res.send({
-      msg: "Hi, I am Backend",
-      success: true,
+    msg: "Hi, I am Backend",
+    success: true,
   });
 });
 
@@ -56,7 +57,16 @@ if (ENV_VARS.NODE_ENV === "production") {
   });
 }
 
+mongoose.connect(ENV_VARS.MONGO_URI)
+  .then(() => {
+    console.log("Database is Ready...");
+  })
+  .catch((err) => {
+    console.log("Error :" + err);
+  });
+
+
 app.listen(PORT, () => {
   console.log("Server started at http://localhost:" + PORT);
-  connectDB();
+  // connectDB();
 });
