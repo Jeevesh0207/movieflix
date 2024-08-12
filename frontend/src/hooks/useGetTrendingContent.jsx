@@ -12,7 +12,7 @@ const useGetTrendingContent = () => {
     const getTrendingContent = async () => {
       try {
         const res = await axios.get(BASE_URL + `/api/v1/${contentType}/trending`, {
-          withCredentials: true, // Include credentials (cookies) with the request
+          withCredentials:true
         });
         setTrendingContent(res.data.content);
       } catch (error) {
