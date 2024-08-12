@@ -20,25 +20,14 @@ app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 
 // Define allowed origins
-const allowedOrigins = ["http://localhost:5173", "https://movienetflix.vercel.app"];
+// const allowedOrigins = ["http://localhost:5173", "https://movienetflix.vercel.app"];
 
-// Configure CORS
-app.use(cors({
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin) || !origin) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
+const corsOptions = {
+  origin: '*',
   credentials: true,
-}));
-app.use(function(req, res, next) { 
-  res.header("Access-Control-Allow-Origin", "*"); 
-  res.header("Access-Control-Allow-Credentials",true)
-  next(); 
+};
 
-});
+app.use(cors(corsOptions));
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
