@@ -20,7 +20,7 @@ const __dirname = path.resolve();
 app.use(express.json());
 app.use(cookieParser());
 
-const allowedOrigins = ["https://movie-streaming-belt.vercel.app", "http://localhost:5173"];
+const allowedOrigins = ["https://movieflixbackend.vercel.app", "http://localhost:5173"];
 
 app.options('*', cors({
   origin: (origin, callback) => {
