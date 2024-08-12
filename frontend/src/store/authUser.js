@@ -59,9 +59,9 @@ export const useAuthStore = create((set) => ({
 		try {
 			const token = Cookies.get('jwt-netflix'); // Retrieve token from cookies
 			if (token) {
-				const response = await axios.post(BASE_URL + "/api/v1/auth/authCheck", {
-					headers: { 'Authorization': `Bearer ${token}` },
-					withCredentials: true,
+				const response = await fetch(BASE_URL + "/api/v1/auth/authCheck", {
+					method: 'GET',
+					credentials: 'include', // Include cookies in cross-origin requests
 				});
 				set({ user: response.data.user, isCheckingAuth: false });
 			} else {
