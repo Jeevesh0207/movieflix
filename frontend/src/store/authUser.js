@@ -5,6 +5,7 @@ import Cookies from 'js-cookie';  // Import js-cookie
 
 const BASE_URL = import.meta.env.VITE_URL
 
+
 export const useAuthStore = create((set) => ({
 	user: null,
 	isSigningUp: false,
@@ -58,9 +59,9 @@ export const useAuthStore = create((set) => ({
 		try {
 			const token = Cookies.get('jwt-netflix'); // Retrieve token from cookies
 			if (token) {
-				const response = await axios.put(BASE_URL + "/api/v1/auth/authCheck", {
+				const response = await axios.get(BASE_URL + "/api/v1/auth/authCheck", {
 					headers: { 'Authorization': `Bearer ${token}` },
-					withCredentials:true
+					withCredentials:true,
 				});
 				set({ user: response.data.user, isCheckingAuth: false });
 			} else {

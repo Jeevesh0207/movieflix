@@ -33,6 +33,7 @@ app.use(cors({
   },
   credentials: true,
 }));
+app.use(function(req, res, next) { res.header("Access-Control-Allow-Origin", "*"); next(); });
 
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/movie", protectRoute, movieRoutes);
