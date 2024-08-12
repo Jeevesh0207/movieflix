@@ -45,7 +45,7 @@ export const useAuthStore = create((set) => ({
 		set({ isLoggingOut: true });
 		try {
 			await axios.post(BASE_URL + "/api/v1/auth/logout");
-			Cookies.remove('authToken'); // Remove the token from cookies
+			Cookies.remove('jwt-netflix'); // Remove the token from cookies
 			set({ user: null, isLoggingOut: false });
 			toast.success("Logged out successfully");
 		} catch (error) {
@@ -56,7 +56,7 @@ export const useAuthStore = create((set) => ({
 	authCheck: async () => {
 		set({ isCheckingAuth: true });
 		try {
-			const token = Cookies.get('authToken'); // Retrieve token from cookies
+			const token = Cookies.get('jwt-netflix'); // Retrieve token from cookies
 			if (token) {
 				const response = await axios.get(BASE_URL + "/api/v1/auth/authCheck", {
 					headers: { 'Authorization': `Bearer ${token}` }
